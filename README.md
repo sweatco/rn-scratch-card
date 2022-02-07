@@ -25,7 +25,7 @@ import { ScratchCard } from 'rn-scratch-card';
   brushWidth={50}
   onScratch={handleScratch}
   style={styles.scratch_card}
-/>;
+/>
 ```
 
 ## Example project setup
