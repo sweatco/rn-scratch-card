@@ -2,7 +2,7 @@
 
 React Native Scratch Card which temporarily hides content from a user
 
-![Scratch Sample](https://github.com/sweatco/rn-scratch-card/raw/master/demo.gif)
+![Scratch Sample](https://github.com/sweatco/rn-scratch-card/raw/main/demo.gif)
 
 Check out it on [dribble](https://dribbble.com/shots/17396594-Sweatcoin-Scratch-The-Prize-Feature-Lottery-Style).
 
