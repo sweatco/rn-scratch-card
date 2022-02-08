@@ -1,14 +1,27 @@
 import * as React from 'react';
 
-import { StyleSheet, View } from 'react-native';
-import { RnScratchCardView } from 'rn-scratch-card';
+import { Image, StyleSheet, View } from 'react-native';
+import { ScratchCard } from 'rn-scratch-card';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <RnScratchCardViewManager color="#32a852" style={styles.box} />
+      <Image
+        source={require('./scratch_background.png')}
+        style={styles.background_view}
+      />
+      <ScratchCard
+        source={require('./scratch_foreground.png')}
+        brushWidth={50}
+        onScratch={handleScratch}
+        style={styles.scratch_card}
+      />
     </View>
   );
+
+  function handleScratch(scratchPercentage: number) {
+    console.log(scratchPercentage);
+  }
 }
 
 const styles = StyleSheet.create({
@@ -16,10 +29,19 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 16,
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+  background_view: {
+    position: 'absolute',
+    width: 400,
+    height: 400,
+    backgroundColor: 'transparent',
+    alignSelf: 'center',
+    borderRadius: 16,
+  },
+  scratch_card: {
+    width: 400,
+    height: 400,
+    backgroundColor: 'transparent',
   },
 });

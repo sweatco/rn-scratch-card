@@ -1,4 +1,4 @@
-package com.example.rnscratchcard;
+package in.sweatco.rnscratchcard;
 
 import com.facebook.react.ReactActivity;
 

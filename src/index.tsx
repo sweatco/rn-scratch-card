@@ -1,26 +1,41 @@
-import {
-  requireNativeComponent,
-  UIManager,
-  Platform,
-  ViewStyle,
-} from 'react-native';
+import React, { useState } from 'react';
+import { Image, View } from 'react-native';
 
-const LINKING_ERROR =
-  `The package 'rn-scratch-card' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo managed workflow\n';
+import { RnScratchCard, ScratchCardProps, UserInput } from './RnScratchCard';
+import { ScratchGrid } from './ScratchGrid';
 
-type RnScratchCardProps = {
-  color: string;
-  style: ViewStyle;
+export const ScratchCard: React.FC<ScratchCardProps> = (
+  props: ScratchCardProps
+) => {
+  const image = Image.resolveAssetSource(props.source);
+  const [grid, setGrid] = useState<ScratchGrid | undefined>();
+
+  return (
+    <View
+      onLayout={(event) => {
+        const { width, height } = event.nativeEvent.layout;
+        if (grid?.size !== { width, height }) {
+          const size = { width, height };
+          setGrid(new ScratchGrid(size, props.brushWidth));
+        }
+      }}
+    >
+      <RnScratchCard
+        image={image}
+        brushWidth={props.brushWidth}
+        onScratch={handleOnScratch}
+        style={props.style}
+      />
+    </View>
+  );
+
+  function handleOnScratch(event: UserInput) {
+    if (props.onScratch && grid) {
+      const { nativeEvent } = event;
+      const x = Math.min(grid.size.width - 1, Math.max(0, nativeEvent.x));
+      const y = Math.min(grid.size.height - 1, Math.max(0, nativeEvent.y));
+      grid.update({ x, y });
+      props.onScratch(grid.percentCompleted);
+    }
+  }
 };
-
-const ComponentName = 'RnScratchCardView';
-
-export const RnScratchCardView =
-  UIManager.getViewManagerConfig(ComponentName) != null
-    ? requireNativeComponent<RnScratchCardProps>(ComponentName)
-    : () => {
-        throw new Error(LINKING_ERROR);
-      };
