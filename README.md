@@ -39,6 +39,7 @@ If you are launching project under iOS, please, also remember to
 
 ```sh
 cd example/ios
+yarn install
 pod install
 ```
 
