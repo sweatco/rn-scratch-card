@@ -1,15 +1,12 @@
-import * as React from 'react';
+import * as React from 'react'
 
-import { Image, StyleSheet, View } from 'react-native';
-import { ScratchCard } from 'rn-scratch-card';
+import { Image, StyleSheet, View } from 'react-native'
+import { ScratchCard } from 'rn-scratch-card'
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Image
-        source={require('./scratch_background.png')}
-        style={styles.background_view}
-      />
+      <Image source={require('./scratch_background.png')} style={styles.background_view} />
       <ScratchCard
         source={require('./scratch_foreground.png')}
         brushWidth={50}
@@ -17,10 +14,10 @@ export default function App() {
         style={styles.scratch_card}
       />
     </View>
-  );
+  )
 
   function handleScratch(scratchPercentage: number) {
-    console.log(scratchPercentage);
+    console.log(scratchPercentage)
   }
 }
 
@@ -44,4 +41,4 @@ const styles = StyleSheet.create({
     height: 400,
     backgroundColor: 'transparent',
   },
-});
+})

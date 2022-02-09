@@ -6,61 +6,60 @@
 */
 
 export type Size = {
-  width: number;
-  height: number;
-};
+  width: number
+  height: number
+}
 
 export type Point = {
-  x: number;
-  y: number;
-};
+  x: number
+  y: number
+}
 
 export class ScratchGrid {
-  percentCompleted = 0;
+  percentCompleted = 0
 
-  readonly size: Size;
-  private readonly grid: boolean[][];
-  private readonly totalCellsCount: number;
-  private readonly cellWidth: number;
-  private markedCellsCount = 0;
+  readonly size: Size
+  private readonly grid: boolean[][]
+  private readonly totalCellsCount: number
+  private readonly cellWidth: number
+  private markedCellsCount = 0
 
   constructor(rectSize: Size, lineWidth: number) {
-    const numberOfElementsInRow = Math.ceil(rectSize.width / lineWidth); // x
-    const rowsCount = Math.ceil(rectSize.height / lineWidth); // y
+    const numberOfElementsInRow = Math.ceil(rectSize.width / lineWidth) // x
+    const rowsCount = Math.ceil(rectSize.height / lineWidth) // y
     this.grid = Array(rowsCount)
       .fill([])
-      .map(() => Array<boolean>(numberOfElementsInRow).fill(false));
-    this.totalCellsCount = rowsCount * numberOfElementsInRow;
-    this.cellWidth = lineWidth;
-    this.size = rectSize;
+      .map(() => Array<boolean>(numberOfElementsInRow).fill(false))
+    this.totalCellsCount = rowsCount * numberOfElementsInRow
+    this.cellWidth = lineWidth
+    this.size = rectSize
   }
 
   update(scratchPoint: Point) {
     if (this.isCellScratched(scratchPoint)) {
-      this.markedCellsCount += 1;
+      this.markedCellsCount += 1
     }
-    this.percentCompleted =
-      (this.markedCellsCount / this.totalCellsCount) * 100;
+    this.percentCompleted = (this.markedCellsCount / this.totalCellsCount) * 100
 
     if (__DEV__) {
       // For Debug Console autoscroll in VSCode, uncheck Settings > Debug > Console: Word Wrap
       for (let row of this.grid) {
-        console.log(row.map((isMarked: boolean) => (isMarked ? '*' : ' ')));
+        console.log(row.map((isMarked: boolean) => (isMarked ? '*' : ' ')))
       }
-      console.log(' ');
+      console.log(' ')
     }
   }
 
   isCellScratched(brush: Point): boolean {
-    const rowIndex = Math.floor(brush.y / this.cellWidth);
-    const elementInRowIndex = Math.floor(brush.x / this.cellWidth);
-    const cell = this.grid[rowIndex][elementInRowIndex];
+    const rowIndex = Math.floor(brush.y / this.cellWidth)
+    const elementInRowIndex = Math.floor(brush.x / this.cellWidth)
+    const cell = this.grid[rowIndex][elementInRowIndex]
 
     if (!cell) {
-      this.grid[rowIndex][elementInRowIndex] = true;
-      return true;
+      this.grid[rowIndex][elementInRowIndex] = true
+      return true
     }
 
-    return false;
+    return false
   }
 }
