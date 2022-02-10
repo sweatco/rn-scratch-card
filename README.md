@@ -33,13 +33,14 @@ import { ScratchCard } from 'rn-scratch-card';
 ```sh
 cd rn-scratch-card
 yarn install
+cd example
+yarn install
 ```
 
 If you are launching project under iOS, please, also remember to
 
 ```sh
-cd example/ios
-yarn install
+cd ios
 pod install
 ```
 
