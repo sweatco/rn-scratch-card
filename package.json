@@ -34,7 +34,15 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "react-native-scratch",
+    "react-native-scratch-view",
+    "react-native-scratch-card",
+    "react-native-scratch-image",
+    "scratch",
+    "scratch-card",
+    "scratch-view",
+    "scratch-image"
   ],
   "repository": "https://github.com/sweatco/rn-scratch-card",
   "author": "Sasha Egorov <avegrv@gmail.com> (https://github.com/sweatco/rn-scratch-card)",
