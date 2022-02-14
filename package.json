@@ -1,6 +1,6 @@
 {
   "name": "rn-scratch-card",
-  "version": "1.0.0-beta4",
+  "version": "1.0.0-beta5",
   "description": "React Native Scratch Card which temporarily hides content from user",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
