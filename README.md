@@ -17,7 +17,7 @@ yarn add rn-scratch-card
 ## Usage
 
 ```js
-import { ScratchCard } from 'rn-scratch-card';
+import { ScratchCard } from 'rn-scratch-card'
 
 // ...
 <ScratchCard
