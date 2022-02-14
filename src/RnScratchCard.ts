@@ -1,6 +1,6 @@
 import {
   ImageResolvedAssetSource,
-  ImageURISource,
+  ImageSourcePropType,
   Platform,
   requireNativeComponent,
   UIManager,
@@ -15,10 +15,10 @@ const LINKING_ERROR =
   '- You are not using Expo managed workflow\n'
 
 export type ScratchCardProps = {
-  source: ImageURISource
+  source: ImageSourcePropType
   brushWidth: number
   onScratch?: (scratchPercentage: number) => void
-  style: ViewStyle
+  style?: ViewStyle
 }
 
 export interface UserInput {
@@ -29,7 +29,7 @@ interface NativeViewProps {
   image: ImageResolvedAssetSource
   brushWidth: number
   onScratch?: (event: UserInput) => void
-  style: ViewStyle
+  style?: ViewStyle
 }
 
 const ComponentName = 'RnScratchCardView'
