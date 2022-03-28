@@ -40,8 +40,9 @@ class RNScratchCard constructor(
     setControllerListener(object : ReactImageDownloadListener<ImageInfo>() {
       override fun onFinalImageSet(id: String?, imageInfo: ImageInfo?, animatable: Animatable?) {
         if (imageInfo is CloseableStaticBitmap) {
-          pathStrippedImage = imageInfo.underlyingBitmap
-          pathStrippedCanvas = Canvas(imageInfo.underlyingBitmap)
+          val bitmap = imageInfo.underlyingBitmap.copy(imageInfo.underlyingBitmap.config, true)
+          pathStrippedImage = bitmap
+          pathStrippedCanvas = Canvas(bitmap)
           srcFrame = Rect(0, 0, imageInfo.width, imageInfo.height)
           dstFrame = RectF(0f, 0f, width.toFloat(), height.toFloat())
           pathManager.setScale(
