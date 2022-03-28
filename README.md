@@ -35,6 +35,7 @@ cd rn-scratch-card
 yarn install
 cd example
 yarn install
+yarn run react-native run-ios
 ```
 
 If you are launching project under iOS, please, also remember to
