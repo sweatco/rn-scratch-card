@@ -51,12 +51,12 @@ class RNScratchCard(
 
   fun revalidate(requestManager: RequestManager?) {
     if(source == null) {
-      Log.e("RNScratchCard", "Image source is not set")
+      Log.w("RNScratchCard", "Image source is not set")
       return
     }
 
     if(requestManager == null) {
-      Log.e("RNScratchCard", "Request manager is not set")
+      Log.w("RNScratchCard", "Request manager is not set")
       return
     }
 
@@ -74,7 +74,7 @@ class RNScratchCard(
     builder.into(this)
   }
 
-  private fun initCanvas(canvas: Canvas) {
+  private fun initCanvas(): Boolean {
     if (this.drawable is BitmapDrawable) {
       this.pathStrippedImage = (this.drawable as BitmapDrawable).bitmap
 
@@ -86,17 +86,11 @@ class RNScratchCard(
         srcFrame.height() / dstFrame.height()
       )
 
-      canvas.drawBitmap(pathStrippedImage!!, srcFrame, dstFrame,null)
-
-    } else {
-      val d: Drawable? = this.drawable
-      if(d == null) {
-        Log.e("RNScratchCard", "Drawable is null")
-        return
-      }
-
-      this.pathStrippedImage = Bitmap.createBitmap(d.intrinsicWidth, d.intrinsicHeight, Bitmap.Config.ARGB_8888)
+      // Initialized
+      return true
     }
+
+    return false
   }
 
   @SuppressLint("ClickableViewAccessibility")
@@ -115,8 +109,9 @@ class RNScratchCard(
   override fun onDraw(canvas: Canvas) {
     if(pathStrippedImage == null) {
       Log.e("RNScratchCard", "Path stripped image is null")
-      initCanvas(canvas)
-      return
+
+      val initialized = initCanvas()
+      if (!initialized) return;
     }
 
     // No shot this is null at this point
