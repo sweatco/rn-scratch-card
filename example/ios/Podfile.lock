@@ -1111,7 +1111,7 @@ PODS:
     - React-jsi (= 0.73.3)
     - React-logger (= 0.73.3)
     - React-perflogger (= 0.73.3)
-  - rn-scratch-card (1.1.0):
+  - rn-scratch-card (1.2.0):
     - React-Core
   - SocketRocket (0.6.1)
   - Yoga (1.14.0)
@@ -1369,10 +1369,10 @@ SPEC CHECKSUMS:
   React-runtimescheduler: aa382ce525689b88459e1181b3649220f175dc31
   React-utils: b22b4a51aa578b3aac1e7c19501c0b9ba358ed79
   ReactCommon: e708b8be8cb317b83e31c6ccfeda8bf6c0d1a2b3
-  rn-scratch-card: a2133728dc02e1c54b45152d7d01f81a83b99ca9
+  rn-scratch-card: 1542396305fd455b7c3e7a1d0b3bb09a99e47cb4
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  Yoga: 08cd7601462818c4985bda7b205b9e6a92a7e66a
+  Yoga: ff0382b894475dba0b4d2a5fda860bfee5a9afad
 
 PODFILE CHECKSUM: 3a18d38069c6190142920703261962ace071f7e5
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.12.1
