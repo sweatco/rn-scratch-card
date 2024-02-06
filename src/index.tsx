@@ -12,7 +12,7 @@ export const ScratchCard: React.FC<ScratchCardProps> = (props: ScratchCardProps)
     <View
       onLayout={(event) => {
         const { width, height } = event.nativeEvent.layout
-        if (grid?.size !== { width, height }) {
+        if (grid?.size.width !== width || grid?.size.height !== height) {
           const size = { width, height }
           setGrid(new ScratchGrid(size, props.brushWidth))
         }
