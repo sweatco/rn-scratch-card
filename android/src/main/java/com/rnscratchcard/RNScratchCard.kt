@@ -3,7 +3,7 @@ package com.rnscratchcard
 import android.annotation.SuppressLint
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
 import com.bumptech.glide.RequestManager
@@ -40,6 +40,7 @@ class RNScratchCard(
   private val ANDROID_RESOURCE_SCHEME = "android.resource"
   private val ANDROID_CONTENT_SCHEME = "content"
   private val LOCAL_FILE_SCHEME = "file"
+  private val LOCAL_RESOURCE_SCHEME = "res"
 
   init {
     clearPaint = createBaseScratchPaint()
@@ -66,6 +67,7 @@ class RNScratchCard(
       DATA_SCHEME -> this.source
       ANDROID_RESOURCE_SCHEME -> sourceUri
       LOCAL_FILE_SCHEME -> sourceUri.toString()
+      LOCAL_RESOURCE_SCHEME -> Uri.parse(sourceUri.toString().replace("res:/", ANDROID_RESOURCE_SCHEME + "://" + context.getPackageName() + "/"));
       else -> GlideUrl(sourceUri.toString())
     }
 
