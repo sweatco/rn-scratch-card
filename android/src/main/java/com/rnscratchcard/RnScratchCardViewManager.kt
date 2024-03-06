@@ -1,28 +1,20 @@
 package com.rnscratchcard
 
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
+import com.facebook.react.views.imagehelper.ImageSource
 import com.rnscratchcard.tools.px
 
 
 class RnScratchCardViewManager : SimpleViewManager<RNScratchCard>() {
-  private var requestManager: RequestManager? = null;
 
   override fun getName() = "RnScratchCardView"
 
   override fun createViewInstance(reactContext: ThemedReactContext): RNScratchCard {
-    this.requestManager = Glide.with(reactContext)
     return RNScratchCard(reactContext)
-  }
-
-  override fun onAfterUpdateTransaction(view: RNScratchCard) {
-    super.onAfterUpdateTransaction(view)
-    view.revalidate(requestManager)
   }
 
   override fun getExportedCustomDirectEventTypeConstants(): MutableMap<String, Any> {
@@ -33,7 +25,7 @@ class RnScratchCardViewManager : SimpleViewManager<RNScratchCard>() {
 
   @ReactProp(name = "image")
   fun setImage(view: RNScratchCard, source: ReadableMap) {
-    view.setSource(source)
+    view.setSource(ImageSource(view.context, source.getString("uri")))
   }
 
   @ReactProp(name = "brushWidth")

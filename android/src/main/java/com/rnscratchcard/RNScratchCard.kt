@@ -2,13 +2,15 @@ package com.rnscratchcard
 
 import android.annotation.SuppressLint
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
-import com.bumptech.glide.RequestManager
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
-import com.facebook.react.bridge.ReadableMap
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.UIManagerHelper
 import com.facebook.react.views.imagehelper.ImageSource
@@ -26,14 +28,15 @@ class RNScratchCard(
   private val pathManager = ScratchPathManager()
   private val clearPaint: Paint
 
-  private var source: ImageSource? = null
+  private var imageSource: ImageSource? = null
   private var pathStrippedCanvas: Canvas? = null
   private var pathStrippedImage: Bitmap? = null
-
   private var srcFrame = Rect(0, 0, width, height)
   private var dstFrame = RectF(0f, 0f, width.toFloat(), height.toFloat())
 
   private val eventDispatcher = UIManagerHelper.getEventDispatcherForReactTag(context, id)
+
+  private val requestManager: RequestManager
 
   // parsers
   private val DATA_SCHEME: String = "data"
@@ -44,55 +47,43 @@ class RNScratchCard(
 
   init {
     clearPaint = createBaseScratchPaint()
+    requestManager = Glide.with(context.reactApplicationContext)
   }
 
-  fun setSource(source: ReadableMap) {
-    this.source = ImageSource(context, source.getString("uri"))
-  }
-
-  fun revalidate(requestManager: RequestManager?) {
-    if(source == null) {
-      Log.w("RNScratchCard", "Image source is not set")
+  fun setSource(imageSource: ImageSource) {
+    if (this.imageSource != imageSource) {
+      this.imageSource = imageSource
+    } else {
       return
     }
-
-    if(requestManager == null) {
-      Log.w("RNScratchCard", "Request manager is not set")
-      return
+    val source: Any = when(imageSource.uri.scheme) {
+      ANDROID_CONTENT_SCHEME -> imageSource
+      DATA_SCHEME -> imageSource
+      ANDROID_RESOURCE_SCHEME -> imageSource.uri
+      LOCAL_FILE_SCHEME -> imageSource.uri.toString()
+      LOCAL_RESOURCE_SCHEME -> Uri.parse(imageSource.uri.toString().replace("res:/", ANDROID_RESOURCE_SCHEME + "://" + context.getPackageName() + "/"));
+      else -> GlideUrl(imageSource.uri.toString())
     }
+    requestManager.asBitmap()
+      .load(source)
+      .into(object : CustomTarget<Bitmap>() {
+        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+          pathStrippedImage = resource.copy(resource.config, true)
+          pathStrippedImage?.let {
+            pathStrippedCanvas = Canvas(it)
+          }
+          srcFrame = Rect(0, 0, resource.width, resource.height)
+          pathManager.setScale(
+            srcFrame.width() / dstFrame.width(),
+            srcFrame.height() / dstFrame.height()
+          )
+          invalidate()
+        }
 
-    val sourceUri = this.source?.uri!!
-    val source: Any? = when(sourceUri.scheme) {
-      ANDROID_CONTENT_SCHEME -> this.source
-      DATA_SCHEME -> this.source
-      ANDROID_RESOURCE_SCHEME -> sourceUri
-      LOCAL_FILE_SCHEME -> sourceUri.toString()
-      LOCAL_RESOURCE_SCHEME -> Uri.parse(sourceUri.toString().replace("res:/", ANDROID_RESOURCE_SCHEME + "://" + context.getPackageName() + "/"));
-      else -> GlideUrl(sourceUri.toString())
-    }
-
-    val builder = requestManager.load(source)
-
-    builder.into(this)
-  }
-
-  private fun initCanvas(): Boolean {
-    if (this.drawable is BitmapDrawable) {
-      this.pathStrippedImage = (this.drawable as BitmapDrawable).bitmap
-
-      pathStrippedCanvas = Canvas(pathStrippedImage!!)
-      srcFrame = Rect(0, 0, pathStrippedImage!!.width, pathStrippedImage!!.height)
-      dstFrame = RectF(0f, 0f, width.toFloat(), height.toFloat())
-      pathManager.setScale(
-        srcFrame.width() / dstFrame.width(),
-        srcFrame.height() / dstFrame.height()
-      )
-
-      // Initialized
-      return true
-    }
-
-    return false
+        override fun onLoadCleared(placeholder: Drawable?) {
+          // do nothing
+        }
+      })
   }
 
   @SuppressLint("ClickableViewAccessibility")
@@ -100,7 +91,7 @@ class RNScratchCard(
     val events = ScratchPathPoint.fromMotionEvent(event)
     pathManager.addScratchPathPoints(events)
     pathStrippedCanvas?.let {
-      pathManager.drawAndReset(it, clearPaint)
+      pathManager.drawLines(it, clearPaint)
     }
     pathStrippedImage?.prepareToDraw()
     notifyScratch(event)
@@ -108,16 +99,20 @@ class RNScratchCard(
     return true
   }
 
-  override fun onDraw(canvas: Canvas) {
-    if(pathStrippedImage == null) {
-      Log.e("RNScratchCard", "Path stripped image is null")
-
-      val initialized = initCanvas()
-      if (!initialized) return;
+  override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+    super.onSizeChanged(w, h, oldw, oldh)
+    dstFrame = RectF(0f, 0f, w.toFloat(), h.toFloat())
+    pathStrippedImage?.let {
+      srcFrame = Rect(0, 0, it.width, it.height)
+      pathManager.setScale(
+        srcFrame.width().toFloat() / w,
+        srcFrame.height().toFloat() / h
+      )
     }
+  }
 
-    // No shot this is null at this point
-    canvas.drawBitmap(pathStrippedImage!!, srcFrame, dstFrame,null)
+  override fun onDraw(canvas: Canvas) {
+    pathStrippedImage?.let { canvas.drawBitmap(it, srcFrame, dstFrame, null) }
   }
 
   fun setBrushWidth(brushWidth: Float) {
