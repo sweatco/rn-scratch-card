@@ -73,7 +73,7 @@ class ScratchPathManager {
     paths.add(activePath)
   }
 
-  fun drawAndReset(canvas: Canvas, paint: Paint) {
+  fun drawLines(canvas: Canvas, paint: Paint) {
     for (path in paths) {
       canvas.drawPath(path, paint)
       path.reset()
