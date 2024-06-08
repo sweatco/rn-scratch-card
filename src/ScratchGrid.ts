@@ -40,14 +40,6 @@ export class ScratchGrid {
       this.markedCellsCount += 1
     }
     this.percentCompleted = (this.markedCellsCount / this.totalCellsCount) * 100
-
-    if (__DEV__) {
-      // For Debug Console autoscroll in VSCode, uncheck Settings > Debug > Console: Word Wrap
-      for (let row of this.grid) {
-        console.log(row.map((isMarked: boolean) => (isMarked ? '*' : ' ')))
-      }
-      console.log(' ')
-    }
   }
 
   isCellScratched(brush: Point): boolean {
