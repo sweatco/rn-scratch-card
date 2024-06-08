@@ -19,6 +19,7 @@ export type ScratchCardProps = {
   brushWidth: number
   onScratch?: (scratchPercentage: number) => void
   style?: ViewStyle
+  showDebugLogs?: boolean
 }
 
 export interface UserInput {

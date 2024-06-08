@@ -14,7 +14,7 @@ export const ScratchCard: React.FC<ScratchCardProps> = (props: ScratchCardProps)
         const { width, height } = event.nativeEvent.layout
         if (grid?.size.width !== width || grid?.size.height !== height) {
           const size = { width, height }
-          setGrid(new ScratchGrid(size, props.brushWidth))
+          setGrid(new ScratchGrid(size, props.brushWidth, props.showDebugLogs))
         }
       }}>
       <RnScratchCard image={image} brushWidth={props.brushWidth} onScratch={handleOnScratch} style={props.style} />

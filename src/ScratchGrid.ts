@@ -23,8 +23,9 @@ export class ScratchGrid {
   private readonly totalCellsCount: number
   private readonly cellWidth: number
   private markedCellsCount = 0
+  private showDebugLogs: boolean
 
-  constructor(rectSize: Size, lineWidth: number) {
+  constructor(rectSize: Size, lineWidth: number, showDebugLogs: boolean = false) {
     const numberOfElementsInRow = Math.ceil(rectSize.width / lineWidth) // x
     const rowsCount = Math.ceil(rectSize.height / lineWidth) // y
     this.grid = Array(rowsCount)
@@ -33,6 +34,7 @@ export class ScratchGrid {
     this.totalCellsCount = rowsCount * numberOfElementsInRow
     this.cellWidth = lineWidth
     this.size = rectSize
+    this.showDebugLogs = showDebugLogs
   }
 
   update(scratchPoint: Point) {
@@ -41,12 +43,12 @@ export class ScratchGrid {
     }
     this.percentCompleted = (this.markedCellsCount / this.totalCellsCount) * 100
 
-    if (__DEV__) {
+    if (this.showDebugLogs) {
       // For Debug Console autoscroll in VSCode, uncheck Settings > Debug > Console: Word Wrap
       for (let row of this.grid) {
-        console.log(row.map((isMarked: boolean) => (isMarked ? '*' : ' ')))
+        console.debug(row.map((isMarked: boolean) => (isMarked ? '*' : ' ')))
       }
-      console.log(' ')
+      console.debug(' ')
     }
   }
 
