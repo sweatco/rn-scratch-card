@@ -68,7 +68,7 @@ class RNScratchCard(
       .load(source)
       .into(object : CustomTarget<Bitmap>() {
         override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-          pathStrippedImage = resource.copy(resource.config, true)
+          pathStrippedImage = resource.copy(resource.config ?: Bitmap.Config.ARGB_8888, true)
           pathStrippedImage?.let {
             pathStrippedCanvas = Canvas(it)
           }
