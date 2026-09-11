@@ -27,9 +27,47 @@ class ScratchCardView : UIView {
 
     @objc var image: NSDictionary? = nil {
         didSet {
-            guard let image = RCTConvert.uiImage(image) else { return }
-            overlayImage = image
+            if let url = remoteURL(from: image) {
+                loadRemoteImage(from: url)
+            } else if let localImage = RCTConvert.uiImage(image) {
+                overlayImage = localImage
+                setNeedsDisplay()
+            }
         }
+    }
+
+    private static let imageCache = NSCache<NSString, UIImage>()
+
+    private func remoteURL(from image: NSDictionary?) -> URL? {
+        guard let uri = image?["uri"] as? String,
+              let url = URL(string: uri),
+              let scheme = url.scheme?.lowercased(),
+              scheme == "http" || scheme == "https" else { return nil }
+        return url
+    }
+
+    private func loadRemoteImage(from url: URL) {
+        let cacheKey = url.absoluteString as NSString
+        if let cached = ScratchCardView.imageCache.object(forKey: cacheKey) {
+            overlayImage = cached
+            setNeedsDisplay()
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.timeoutInterval = 15
+        request.cachePolicy = .returnCacheDataElseLoad
+
+        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+            guard error == nil,
+                  let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode),
+                  let data = data, let image = UIImage(data: data) else { return }
+            ScratchCardView.imageCache.setObject(image, forKey: cacheKey)
+            DispatchQueue.main.async {
+                self?.overlayImage = image
+                self?.setNeedsDisplay()
+            }
+        }.resume()
     }
 
     @objc var brushWidth: NSNumber? = nil {
