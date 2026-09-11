@@ -28,6 +28,8 @@ import { ScratchCard } from 'rn-scratch-card'
 />
 ```
 
+`source` accepts a bundled asset (`require(...)`) or a remote image (`{ uri: 'https://…' }`). Remote images load asynchronously and are cached in memory.
+
 ## Example project setup
 
 ```sh
