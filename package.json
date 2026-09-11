@@ -1,6 +1,6 @@
 {
-  "name": "rn-scratch-card",
-  "version": "1.2.4",
+  "name": "@sweatco/rn-scratch-card",
+  "version": "1.2.5",
   "description": "React Native Scratch Card which temporarily hides content from user",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -52,6 +52,7 @@
   },
   "homepage": "https://github.com/sweatco/rn-scratch-card#readme",
   "publishConfig": {
+    "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {

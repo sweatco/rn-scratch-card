@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "rn-scratch-card": ["./src/index"]
+      "@sweatco/rn-scratch-card": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
