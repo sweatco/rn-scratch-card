@@ -47,6 +47,10 @@ cd ios
 pod install
 ```
 
+## Release
+
+Bump `version` in `package.json` and merge to `main`. The `Publish to npm` workflow publishes that version (skipping if it is already on the registry) and pushes a matching `x.y.z` tag. Authentication is npm trusted publishing (OIDC), configured on npmjs.com for this repo's `publish.yml`.
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
