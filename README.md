@@ -9,15 +9,15 @@ Check out it on [dribble](https://dribbble.com/shots/17396594-Sweatcoin-Scratch-
 ## Installation
 
 ```sh
-yarn add rn-scratch-card
+yarn add @sweatco/rn-scratch-card
 ```
 
-[![https://nodei.co/npm/rn-scratch-card.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/rn-scratch-card.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/rn-scratch-card)
+Published on npm as [`@sweatco/rn-scratch-card`](https://www.npmjs.com/package/@sweatco/rn-scratch-card); the unscoped `rn-scratch-card` stops at 1.2.4.
 
 ## Usage
 
 ```js
-import { ScratchCard } from 'rn-scratch-card'
+import { ScratchCard } from '@sweatco/rn-scratch-card'
 
 // ...
 <ScratchCard

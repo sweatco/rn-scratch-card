@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { Image, StyleSheet, View } from 'react-native'
-import { ScratchCard } from 'rn-scratch-card'
+import { ScratchCard } from '@sweatco/rn-scratch-card'
 
 export default function App() {
   return (
