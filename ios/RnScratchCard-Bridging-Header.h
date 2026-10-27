@@ -1,3 +1,3 @@
 #import <React/RCTViewManager.h>
 #import <React/RCTConvert.h>
-#import "RCTImageSource.h"
+#import <React/RCTImageSource.h>

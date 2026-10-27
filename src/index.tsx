@@ -8,6 +8,10 @@ export const ScratchCard: React.FC<ScratchCardProps> = (props: ScratchCardProps)
   const image = Image.resolveAssetSource(props.source)
   const [grid, setGrid] = useState<ScratchGrid | undefined>()
 
+  if (image == null) {
+    return null
+  }
+
   return (
     <View
       onLayout={(event) => {

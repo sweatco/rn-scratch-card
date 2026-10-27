@@ -1,27 +1,15 @@
 {
+  "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "baseUrl": "./",
     "paths": {
       "@sweatco/rn-scratch-card": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "esModuleInterop": true,
-    "importsNotUsedAsValues": "error",
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "lib": ["esnext"],
-    "module": "esnext",
-    "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
-    "noStrictGenericChecks": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "esnext"
-  }
+    "noUnusedParameters": true
+  },
+  "exclude": ["lib"]
 }

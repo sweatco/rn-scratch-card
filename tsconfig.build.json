@@ -1,5 +1,9 @@
-
 {
   "extends": "./tsconfig",
-  "exclude": ["example"]
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "rootDir": "src"
+  },
+  "include": ["src"]
 }
